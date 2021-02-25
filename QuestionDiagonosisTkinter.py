@@ -115,39 +115,39 @@ def recurse(node, depth):
 #                print()
                 strData="You may have :" +  str(present_disease)
                
-                QuestionDiagnosis.objRef.txtDigonosis.insert(END, str(strData) + '\n')
+                QuestionDigonosis.objRef.txtDigonosis.insert(END,str(strData)+'\n')
                 
                 red_cols = dimensionality_reduction.columns 
                 symptoms_given = red_cols[dimensionality_reduction.loc[present_disease].values[0].nonzero()]
 #                print("symptoms present  " + str(list(symptoms_present)))
 #                print()
                 strData="symptoms present:  " + str(list(symptoms_present))
-                QuestionDiagnosis.objRef.txtDigonosis.insert(END, str(strData) + '\n')
+                QuestionDigonosis.objRef.txtDigonosis.insert(END,str(strData)+'\n')
 #                print("symptoms given "  +  str(list(symptoms_given)) )  
 #                print()
                 strData="symptoms given: "  +  str(list(symptoms_given))
-                QuestionDiagnosis.objRef.txtDigonosis.insert(END, str(strData) + '\n')
+                QuestionDigonosis.objRef.txtDigonosis.insert(END,str(strData)+'\n')
                 confidence_level = (1.0*len(symptoms_present))/len(symptoms_given)
 #                print("confidence level is " + str(confidence_level))
 #                print()
                 strData="confidence level is: " + str(confidence_level)
-                QuestionDiagnosis.objRef.txtDigonosis.insert(END, str(strData) + '\n')
+                QuestionDigonosis.objRef.txtDigonosis.insert(END,str(strData)+'\n')
 #                print('The model suggests:')
 #                print()
                 strData='The model suggests:'
-                QuestionDiagnosis.objRef.txtDigonosis.insert(END, str(strData) + '\n')
+                QuestionDigonosis.objRef.txtDigonosis.insert(END,str(strData)+'\n')
                 row = doctors[doctors['disease'] == present_disease[0]]
 #                print('Consult ', str(row['name'].values))
 #                print()
                 strData='Consult '+ str(row['name'].values)
-                QuestionDiagnosis.objRef.txtDigonosis.insert(END, str(strData) + '\n')
+                QuestionDigonosis.objRef.txtDigonosis.insert(END,str(strData)+'\n')
 #                print('Visit ', str(row['link'].values))
                 #print(present_disease[0])
-                hyperlink = HyperlinkManager(QuestionDiagnosis.objRef.txtDigonosis)
+                hyperlink = HyperlinkManager(QuestionDigonosis.objRef.txtDigonosis)
                 strData='Visit '+ str(row['link'].values[0])
                 def click1():
                     webbrowser.open_new(str(row['link'].values[0]))
-                QuestionDiagnosis.objRef.txtDigonosis.insert(INSERT, strData, hyperlink.add(click1))
+                QuestionDigonosis.objRef.txtDigonosis.insert(INSERT, strData, hyperlink.add(click1))
                 #QuestionDigonosis.objRef.txtDigonosis.insert(END,str(strData)+'\n')                  
                 yield strData
         
@@ -197,10 +197,10 @@ record['link']
 
 
 # Execute the bot and see it in Action
-
 #execute_bot()
 
-class QuestionDiagnosis(Frame):
+
+class QuestionDigonosis(Frame):
     objIter=None
     objRef=None
     def __init__(self,master=None):
@@ -208,7 +208,7 @@ class QuestionDiagnosis(Frame):
         # root.iconbitmap("")
         master.state("z")
 #        master.minsize(700,350)
-        QuestionDiagnosis.objRef=self
+        QuestionDigonosis.objRef=self
         super().__init__(master=master)
         self["bg"]="light blue"
         self.createWidget()
@@ -218,16 +218,16 @@ class QuestionDiagnosis(Frame):
         self.lblQuestion=Label(self,text="Question",width=12,bg="bisque")
         self.lblQuestion.grid(row=0,column=0,rowspan=4)
 
-        self.lblDiagnosis = Label(self, text="Diagnosis", width=12, bg="bisque")
-        self.lblDiagnosis.grid(row=4, column=0, sticky="n", pady=5)
+        self.lblDigonosis = Label(self, text="Diagnosis",width=12,bg="bisque")
+        self.lblDigonosis.grid(row=4, column=0,sticky="n",pady=5)
 
         # self.varQuestion=StringVar()
         self.txtQuestion = Text(self, width=100,height=4)
         self.txtQuestion.grid(row=0, column=1,rowspan=4,columnspan=20)
 
-        self.varDiagnosis=StringVar()
-        self.txtDiagnosis =Text(self, width=100,height=14)
-        self.txtDiagnosis.grid(row=4, column=1,columnspan=20,rowspan=20,pady=5)
+        self.varDiagonosis=StringVar()
+        self.txtDigonosis =Text(self, width=100,height=14)
+        self.txtDigonosis.grid(row=4, column=1,columnspan=20,rowspan=20,pady=5)
 
         self.btnNo=Button(self,text="No",width=12,bg="bisque", command=self.btnNo_Click)
         self.btnNo.grid(row=25,column=0)
@@ -242,7 +242,7 @@ class QuestionDiagnosis(Frame):
         global val,ans
         global val,ans
         ans='no'
-        str1=QuestionDiagnosis.objIter.__next__()
+        str1=QuestionDigonosis.objIter.__next__()
         self.txtQuestion.delete(0.0,END)
         self.txtQuestion.insert(END,str1+"\n")
         
@@ -250,7 +250,7 @@ class QuestionDiagnosis(Frame):
         global val,ans
         ans='yes'
         self.txtDigonosis.delete(0.0,END)
-        str1=QuestionDiagnosis.objIter.__next__()
+        str1=QuestionDigonosis.objIter.__next__()
         
 #        self.txtDigonosis.insert(END,str1+"\n")
         
@@ -262,8 +262,8 @@ class QuestionDiagnosis(Frame):
         self.txtDigonosis.delete(0.0,END)
         self.txtQuestion.delete(0.0,END)
         self.txtDigonosis.insert(END,"Please Click on Yes or No for the Above symptoms in Question")                  
-        QuestionDiagnosis.objIter=recurse(0, 1)
-        str1=QuestionDiagnosis.objIter.__next__()
+        QuestionDigonosis.objIter=recurse(0, 1)
+        str1=QuestionDigonosis.objIter.__next__()
         self.txtQuestion.insert(END,str1+"\n")
 
 
@@ -340,7 +340,7 @@ class Login(Frame):
             if password1 in verify:
                 messagebox.showinfo("Sucess","Login Sucessful")
                 self.destroyPackWidget(Login.main_Root)
-                frmQuestion = QuestionDiagnosis(Login.main_Root)
+                frmQuestion = QuestionDigonosis(Login.main_Root)
                 frmQuestion.pack()
             else:
                 messagebox.showinfo("Failure", "Login Details are wrong try again")
@@ -395,7 +395,7 @@ class SignUp(Frame):
     def btnSucess_Click(self):
 
         self.destroyPackWidget(SignUp.main_Root)
-        frmQuestion = QuestionDiagnosis(SignUp.main_Root)
+        frmQuestion = QuestionDigonosis(SignUp.main_Root)
 
         frmQuestion.pack()
 
